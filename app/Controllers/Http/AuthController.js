@@ -9,7 +9,7 @@ class AuthController {
     async postLogin({ request, response, auth }) {
       const { username, password } = request.all()
       await auth.attempt(username, password)
-      return response.route('profile')
+      return response.route('landing_page')
     }
   
     async postLogout({ auth, response }) {
@@ -17,9 +17,9 @@ class AuthController {
       return response.route('/')
     }
   
-    async getProfile({ auth, view }) {
+    async getDashboard({ auth, view }) {
       const user = auth.user.toJSON()
-      return view.render('profile', {user: user})
+      return view.render('landing_page', {user: user})
     }
   
   }

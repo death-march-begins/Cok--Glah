@@ -17,7 +17,7 @@
 const Route = use('Route')
 
 Route.on('/').render('index')
-Route.get('profile', 'AuthController.getProfile').as('profile').middleware(['auth'])
+Route.get('landing_page', 'AuthController.getDashboard').as('landing_page').middleware(['auth'])
 Route.get('login', 'AuthController.getLogin').as('login')
 Route.post('login', 'AuthController.postLogin').as('login')
-Route.post('logout', 'AuthController.postLogout').as('logout').middleware(['auth'])
+Route.get('logout', 'AuthController.postLogout').as('logout').middleware(['auth'])
