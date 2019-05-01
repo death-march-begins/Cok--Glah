@@ -7,8 +7,8 @@ class AuthController {
     }
   
     async postLogin({ request, response, auth }) {
-      const { email, password } = request.all()
-      await auth.attempt(email, password)
+      const { username, password } = request.all()
+      await auth.attempt(username, password)
       return response.route('profile')
     }
   
