@@ -16,4 +16,8 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
-Route.on('/').render('welcome')
+Route.on('/').render('index')
+Route.get('profile', 'AuthController.getProfile').as('profile').middleware(['auth'])
+Route.get('login', 'AuthController.getLogin').as('login')
+Route.post('login', 'AuthController.postLogin').as('login')
+Route.post('logout', 'AuthController.postLogout').as('logout').middleware(['auth'])
