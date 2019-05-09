@@ -2,14 +2,20 @@
 
 class AuthController {
 
-    async getLogin({ view }) {
+    async getLogin({ auth, view }) {
       return view.render('login')
     }
   
-    async postLogin({ request, response, auth }) {
+    async postLogin({ request, response, auth, session }) {
       const { username, password } = request.all()
-      await auth.attempt(username, password)
-      return response.route('landing_page')
+      try {
+        await auth.attempt(username, password)
+      } catch (e) {
+        session.flashExcept(['password'])
+        session.flash({ error: 'We cannot find any account with these credentials.' })
+        return response.redirect('login')
+      }
+      return response.route('profile')
     }
   
     async postLogout({ auth, response }) {
