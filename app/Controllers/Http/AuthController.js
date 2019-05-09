@@ -13,7 +13,7 @@ class AuthController {
       } catch (e) {
         session.flashExcept(['password'])
         session.flash({ error: 'We cannot find any account with these credentials.' })
-        return response.redirect('login')
+        return response.redirect('/')
       }
       return response.route('profile')
     }
