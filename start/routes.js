@@ -23,4 +23,5 @@ Route.post('/', 'AuthController.postLogin').as('login').middleware(['guest'])
 Route.get('logout', 'AuthController.postLogout').as('logout').middleware(['admin'])
 
 Route.get('profile', 'AuthController.getDashboard').as('profile').middleware(['admin'])
+Route.get('booking', 'BookingController.index').as('booking').middleware(['admin'])
 
