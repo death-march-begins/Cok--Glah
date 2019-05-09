@@ -2,7 +2,7 @@
 
 class BookingController {
     async index({ request, response, view }) {
-        return view.render('booking');
+        return view.render('booking/booking');
     }
     
 }

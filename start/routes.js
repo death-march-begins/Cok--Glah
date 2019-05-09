@@ -18,10 +18,10 @@ const Route = use('Route')
 
 //Route.on('/').render('index')
 //Route.get('login', 'AuthController.getLogin').as('login').middleware(['guest'])
-Route.get('/','AuthController.getLogin').as('login').middleware(['guest'])
-Route.post('/', 'AuthController.postLogin').as('login').middleware(['guest'])
-Route.get('logout', 'AuthController.postLogout').as('logout').middleware(['admin'])
+Route.get('/','LoginController.getLogin').as('login').middleware(['guest'])
+Route.post('/', 'LoginController.postLogin').as('login').middleware(['guest'])
+Route.get('logout', 'LoginController.postLogout').as('logout').middleware(['admin'])
 
-Route.get('profile', 'AuthController.getDashboard').as('profile').middleware(['admin'])
+Route.get('dashboard', 'DashboardController.getDashboard').as('dashboard').middleware(['admin'])
 Route.get('booking', 'BookingController.index').as('booking').middleware(['admin'])
 

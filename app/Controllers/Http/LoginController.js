@@ -1,9 +1,9 @@
 'use strict'
 
-class AuthController {
+class LoginController {
 
     async getLogin({ auth, view }) {
-      return view.render('login')
+      return view.render('auth/login')
     }
   
     async postLogin({ request, response, auth, session }) {
@@ -15,19 +15,14 @@ class AuthController {
         session.flash({ error: 'We cannot find any account with these credentials.' })
         return response.redirect('/')
       }
-      return response.route('profile')
+      return response.route('dashboard')
     }
   
     async postLogout({ auth, response }) {
       await auth.logout()
       return response.route('/')
     }
-  
-    async getDashboard({ auth, view }) {
-      const user = auth.user.toJSON()
-      return view.render('landing_page', {user: user})
-    }
-  
+
   }
   
-  module.exports = AuthController
+  module.exports = LoginController
