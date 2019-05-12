@@ -15,6 +15,6 @@ hooks.after.providersBooted(() => {
 
   // handle `InvalidSessionException`
   Exception.handle('InvalidSessionException', (error, { response }) => {
-    return response.redirect('/login')
+    return response.redirect('/')
   })
 })
