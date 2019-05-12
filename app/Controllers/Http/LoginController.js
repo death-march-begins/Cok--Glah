@@ -15,7 +15,7 @@ class LoginController {
         session.flash({ error: 'We cannot find any account with these credentials.' })
         return response.redirect('/')
       }
-      return response.route('dashboard')
+      return response.route('/main/dashboard')
     }
   
     async postLogout({ auth, response }) {
