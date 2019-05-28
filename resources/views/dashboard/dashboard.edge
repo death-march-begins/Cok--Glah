@@ -1,178 +1,178 @@
 @layout('layouts.master')
 
-@section('dashboard')
+@section('content')
 <!-- Header -->
-   <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
-     <div class="container-fluid">
-       <div class="header-body">
-         <!-- Card stats -->
-         <div class="row">
-           <div class="col-xl-3 col-lg-6">
-             <div class="card card-stats mb-4 mb-xl-0">
-               <div class="card-body">
-                 <div class="row">
-                   <div class="col">
-                     <h5 class="card-title text-uppercase text-muted mb-0">Ruangan MIPA</h5>
-                     <span class="h2 font-weight-bold mb-0">97 Ruangan</span>
-                   </div>
-                   <div class="col-auto">
-                     <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                       <i class="fas fa-chart-bar"></i>
-                     </div>
-                   </div>
-                 </div>
-                 <p class="mt-3 mb-0 text-muted text-sm">
-                 </p>
-               </div>
-             </div>
-           </div>
-           <div class="col-xl-3 col-lg-6">
-             <div class="card card-stats mb-4 mb-xl-0">
-               <div class="card-body">
-                 <div class="row">
-                   <div class="col">
-                     <h5 class="card-title text-uppercase text-muted mb-0">Ruangan INF</h5>
-                     <span class="h2 font-weight-bold mb-0">7 Ruangan</span>
-                   </div>
-                   <div class="col-auto">
-                     <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
-                       <i class="fas fa-chart-pie"></i>
-                     </div>
-                   </div>
-                 </div>
-                 <p class="mt-3 mb-0 text-muted text-sm">
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+        <div class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Ruangan MIPA</h5>
+                  <span class="h2 font-weight-bold mb-0">{{rooms.length}} Ruangan</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                    <i class="fas fa-chart-bar"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-muted text-sm">
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Ruangan {{user.jurusan}}</h5>
+                  <span class="h2 font-weight-bold mb-0">{{myrooms.length}} Ruangan</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                    <i class="fas fa-chart-pie"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-muted text-sm">
+                
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Terpakai</h5>
+                  <span class="h2 font-weight-bold mb-0">{{book.length}}</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                    <i class="fas fa-users"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-muted text-sm">
+                
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Tidak Terpakai</h5>
+              
+                    @if(av.message) 
+                    <span class="h2 font-weight-bold mb-0">
+                    0 
+                    </span>
+                    @else
+                    <span class="h2 font-weight-bold mb-0">
+                    {{av.length}}
+                    </span>
+                    @endif
+                  
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                    <i class="fas fa-percent"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-muted text-sm">
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Projects table -->
+<table class="table align-items-center table-flush">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Registered class</th>
+      <th scope="col">Capacity</th>
+      <th scope="col">Field</th>
+    </tr>
+  </thead>
+  <tbody> 
+    <tr>
+      @each(room in myrooms)
+      <tr>
+        <td>         
+          {{ room.nama_ruangan }}
+        </td>
+        <td>         
+          {{ room.kapasitas }}
+        </td>
+        <td>         
+          {{ room.jurusan }}
+        </td>
+      </tr>
+      @endeach 
+    </tr>
+  </tbody>
+</table>
 
-                 </p>
-               </div>
-             </div>
-           </div>
-           <div class="col-xl-3 col-lg-6">
-             <div class="card card-stats mb-4 mb-xl-0">
-               <div class="card-body">
-                 <div class="row">
-                   <div class="col">
-                     <h5 class="card-title text-uppercase text-muted mb-0">Terpakai</h5>
-                     <span class="h2 font-weight-bold mb-0">6</span>
-                   </div>
-                   <div class="col-auto">
-                     <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
-                       <i class="fas fa-users"></i>
-                     </div>
-                   </div>
-                 </div>
-                 <p class="mt-3 mb-0 text-muted text-sm">
+<button type="button" class="btn btn-primary center" data-toggle="modal" data-target="#modal-register"><i class="fa fa-plus-square text-white big-icon"></i>New Class</button>
 
-                 </p>
-               </div>
-             </div>
-           </div>
-           <div class="col-xl-3 col-lg-6">
-             <div class="card card-stats mb-4 mb-xl-0">
-               <div class="card-body">
-                 <div class="row">
-                   <div class="col">
-                     <h5 class="card-title text-uppercase text-muted mb-0">Tidak Terpakai</h5>
-                     <span class="h2 font-weight-bold mb-0">1</span>
-                   </div>
-                   <div class="col-auto">
-                     <div class="icon icon-shape bg-info text-white rounded-circle shadow">
-                       <i class="fas fa-percent"></i>
-                     </div>
-                   </div>
-                 </div>
-                 <p class="mt-3 mb-0 text-muted text-sm">
-                 </p>
-               </div>
-             </div>
-           </div>
-         </div>
-       </div>
-     </div>
-   </div>
-             <!-- Projects table -->
-             <table class="table align-items-center table-flush">
-               <thead class="thead-light">
-                 <tr>
-                   <th scope="col">Page name</th>
-                   <th scope="col">Visitors</th>
-                   <th scope="col">Unique users</th>
-                   <th scope="col">Bounce rate</th>
-                 </tr>
-               </thead>
-               <tbody>
-                 <tr>
-                   <th scope="row">
-                     /argon/
-                   </th>
-                   <td>
-                     4,569
-                   </td>
-                   <td>
-                     340
-                   </td>
-                   <td>
-                     <i class="fas fa-arrow-up text-success mr-3"></i> 46,53%
-                   </td>
-                 </tr>
-                 <tr>
-                   <th scope="row">
-                     /argon/index.html
-                   </th>
-                   <td>
-                     3,985
-                   </td>
-                   <td>
-                     319
-                   </td>
-                   <td>
-                     <i class="fas fa-arrow-down text-warning mr-3"></i> 46,53%
-                   </td>
-                 </tr>
-                 <tr>
-                   <th scope="row">
-                     /argon/charts.html
-                   </th>
-                   <td>
-                     3,513
-                   </td>
-                   <td>
-                     294
-                   </td>
-                   <td>
-                     <i class="fas fa-arrow-down text-warning mr-3"></i> 36,49%
-                   </td>
-                 </tr>
-                 <tr>
-                   <th scope="row">
-                     /argon/tables.html
-                   </th>
-                   <td>
-                     2,050
-                   </td>
-                   <td>
-                     147
-                   </td>
-                   <td>
-                     <i class="fas fa-arrow-up text-success mr-3"></i> 50,87%
-                   </td>
-                 </tr>
-                 <tr>
-                   <th scope="row">
-                     /argon/profile.html
-                   </th>
-                   <td>
-                     1,795
-                   </td>
-                   <td>
-                     190
-                   </td>
-                   <td>
-                     <i class="fas fa-arrow-down text-danger mr-3"></i> 46,53%
-                   </td>
-                 </tr>
-               </tbody>
-             </table>
-           </div>
-         </div>
-       </div>
+<!-- MODAL -->
+<div class="modal fade" id="modal-register" tabindex="-1" role="dialog" aria-labelledby="modal-register-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+      <div class="modal-header" style="background: #26a65b;">
+        <p style="color:white;">Fill in the form below to register a new class :</p>
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span><span class="sr-only" style="color:red;">Close</span>
+        </button>
+        
+      </div>
+      
+      <div class="modal-body">
+        
+        <form role="form" action="{{ route('/main/dashboard/newclass') }}" method="post" class="registration-form">
+          {{ csrfField() }}
+          <div class="form-group">
+            <label>Kode ruangan</label>
+            <input type="text" name="id_ruangan" class="form-first-name form-control"  data-error="Subject field is required" required>
+          </div>
+          
+          <div class="form-group">
+            <label>Nama ruangan</label>
+            <input type="text" name="nama_ruangan" class="form-email form-control" data-error="Subject field is required" required>
+          </div>
+          
+          <div class="form-group">
+            <label>Kapasitas</label>
+            <input type="number" name="kapasitas" class="form-email form-control" data-error="Subject field is required" required>
+          </div>
+          
+          <div class="form-group">
+            <label>Jurusan</label>
+            <input type="text" name="jurusan" class="form-email form-control" data-error="Subject field is required" required>
+          </div>
+          
+          <button id="order" name="order" type="submit" class="btn btn-success">Done</button>
+        </form>
+        
+      </div>
+      
+    </div>
+  </div>
+</div>
+
 @endsection

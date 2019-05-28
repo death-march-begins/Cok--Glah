@@ -22,10 +22,12 @@ Route.get('/','LoginController.getLogin').as('login').middleware(['guest'])
 Route.post('/', 'LoginController.postLogin').as('login').middleware(['guest'])
 Route.get('register','RegisterController.getRegister').as('register').middleware(['guest'])
 Route.post('register','RegisterController.postRegister').as('register').middleware(['guest']).validator('Register')
-Route.get('register/confirm/:token', 'RegisterController.confirmEmail')
+Route.get('register/confirm/:token', 'RegisterController.confirmEmail').middleware(['guest'])
 Route.get('logout', 'LoginController.postLogout').as('logout').middleware(['admin'])
 
 Route.group(() => {
     Route.get('dashboard', 'DashboardController.getDashboard')
+    Route.post('dashboard/newclass', 'DashboardController.storeClass')
     Route.get('booking', 'BookingController.index')
+    Route.post('booking/add', 'BookingController.storeOrder')
 }).prefix('/main').middleware(['admin'])

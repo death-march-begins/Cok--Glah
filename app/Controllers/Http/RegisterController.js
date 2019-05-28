@@ -12,9 +12,12 @@ class RegisterController {
     async postRegister({ request, session, response, view }) {        
             
         const user = await User.create({
-                nama: request.input('nama'),
+                nama_depan: request.input('nama_depan'),
+                nama_belakang: request.input('nama_belakang'),
                 username: request.input('username'),
+                nip: request.input('nip'),
                 email: request.input('email'),
+                jurusan: request.input('jurusan'),
                 password: request.input('password'),
                 confirmation_token: randomString({ length: 40 })
             })   

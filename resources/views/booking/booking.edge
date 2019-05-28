@@ -1,1 +1,120 @@
-<p>Anda telah berhasil booking</p>
+@layout('layouts.master')
+
+@section('content')
+<!-- Page content -->
+
+<div class="header bg-gradient-blue pt-md-8 booking-header">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header" style="color:white;">Book Your Class Here</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <div class="text-center text-muted mb-4">
+                <small></small>
+            </div>         
+        </div>
+    </div>
+</div>
+<!-- Projects table -->
+@if(avClass.message)
+<div class="container-fluid" style="padding-top: 20px;">
+    <p>{{avClass.message}}</p>
+</div>
+@else
+<table class="table align-items-center table-flush">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Available Class</th>
+            <th scope="col">Capacity</th>
+            <th scope="col">Field</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody> 
+        <tr>
+            @each(room in avClass)
+            <tr>
+                <td>         
+                    {{ room.nama_ruangan }}
+                </td>
+                <td>         
+                    {{ room.kapasitas }}
+                </td>
+                <td>         
+                    {{ room.jurusan }}
+                </td>
+                <td>         
+                    <a href="" data-toggle="modal" data-target="#modal-register" onclick="add('{{ room.id_ruangan }}');"><i class="fa fa-plus-square big-icon"></i></a>
+                </td>       
+                <input type="text" id="{{ room.id_ruangan }}" class="form-first-name form-control" value="{{ room.nama_ruangan }}" hidden>       
+            </tr>
+            @endeach 
+        </tr>
+    </tbody>
+</table>
+@endif
+
+<!-- MODAL -->
+<div class="modal fade" id="modal-register" tabindex="-1" role="dialog" aria-labelledby="modal-register-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <div class="modal-header" style="background: #26a65b;">
+                <p style="color:white;">Fill in the form below to book your class :</p>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only" style="color:red;">Close</span>
+                </button>
+                
+            </div>
+            
+            <div class="modal-body">
+                
+                <form role="form" action="{{ route('/main/booking/add') }}" method="post" class="registration-form">
+                    {{ csrfField() }}
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" class="form-first-name form-control" value="{{ user.username }}" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Nama Ruangan</label>
+                        <input type="text" id="namaroom" class="form-first-name form-control" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Hari</label>
+                        <input type="text" name="hari" class="form-first-name form-control"  data-error="Subject field is required" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Waktu Mulai</label>
+                        <input type="text" name="waktu_mulai" class="form-email form-control" data-error="Subject field is required" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Waktu Selesai</label>
+                        <input type="number" name="waktu_selesai" class="form-email form-control" data-error="Subject field is required" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Tanggal Mulai</label>
+                        <input type="text" name="tanggal_mulai" class="form-email form-control" data-error="Subject field is required" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Tanggal Selesai</label>
+                        <input type="text" name="tanggal_selesai" class="form-email form-control" data-error="Subject field is required" required>
+                    </div>
+                    
+                    <button id="order" name="order" type="submit" class="btn btn-success">Done</button>
+                </form>
+                
+            </div>
+            
+        </div>
+    </div>
+</div>
+@endsection
