@@ -26,8 +26,18 @@ Route.get('register/confirm/:token', 'RegisterController.confirmEmail').middlewa
 Route.get('logout', 'LoginController.postLogout').as('logout').middleware(['admin'])
 
 Route.group(() => {
+    Route.get('/index', 'ProfileController.index');
+    Route.get('/edit/:id', 'ProfileController.edit')
+    Route.post('/update/:id', 'ProfileController.update')
+}).prefix('/profile').middleware(['admin'])
+
+Route.group(() => {
     Route.get('dashboard', 'DashboardController.getDashboard')
     Route.post('dashboard/newclass', 'DashboardController.storeClass')
     Route.get('booking', 'BookingController.index')
     Route.post('booking/add', 'BookingController.storeOrder')
+    Route.post('booking/send', 'BookingController.sendEmail')
+    Route.get('booking/all', 'BookingController.selectAll');
+    Route.get('booking/empty', 'BookingController.selectEmpty');
+    Route.get('mailbox', 'MailboxController.index')
 }).prefix('/main').middleware(['admin'])

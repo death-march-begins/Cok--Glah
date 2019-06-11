@@ -8,7 +8,7 @@
   <meta name="author" content="Creative Tim">
   <title>Cok' Glah</title>
   
-  
+  <link rel="shortcut icon" type="image/x-icon" href="{{appUrl('/assets/argon/assets/img/brand/logo.png')}}" />
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
   <!-- Icons -->
   {{style('assets/argon/assets/vendor/nucleo/css/nucleo.css')}}
@@ -67,7 +67,7 @@
       </button>
       <!-- Brand -->
       <a class="navbar-brand pt-0" href="./index.html">
-        <img src="{{appUrl('/assets/argon/assets/img/brand/blue.png')}}" class="navbar-brand-img" alt="...">
+        <img src="{{appUrl('/assets/argon/assets/img/brand/cokglah.png')}}" class="navbar-brand-img" alt="...">
       </a>
       <!-- Collapse -->
       <div class="collapse navbar-collapse" id="sidenav-collapse-main">
@@ -111,8 +111,8 @@
               <i class="ni ni-planet text-blue"></i> Booking
             </a>
           </li>
-          <li class="nav-item menubar {{ url == route('/main/map') ? 'active' : '' }}">
-            <a class="nav-link" href="./examples/maps.html" aria-pressed="true">
+          <li class="nav-item menubar {{ url == route('/main/mailbox') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('/main/mailbox') }}" aria-pressed="true">
               <i class="ni ni-email-83 text-orange"></i> Mail Box
             </a>
           </li>
@@ -149,7 +149,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-search"></i></span>
               </div>
-              <input class="form-control" placeholder="Search" type="text">
+              <input id="cari" name="cari" class="form-control" onkeyup="show()" placeholder="Search" type="text">
             </div>
           </div>
         </form>
@@ -159,7 +159,7 @@
             <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <div class="media align-items-center">
                 <span class="avatar avatar-sm rounded-circle">
-                  <img alt="Image placeholder" src="{{ appUrl('/assets/argon/assets/img/1small.jpg')}}">
+                  <img alt="Image placeholder" src="{{ appUrl('/assets/argon/assets/img/default.jpg')}}">
                 </span>
                 <div class="media-body ml-2 d-none d-lg-block">
                   <span class="mb-0 text-sm  font-weight-bold">{{ user.nama_depan }}</span>
@@ -170,21 +170,9 @@
               <div class=" dropdown-header noti-title">
                 <h6 class="text-overflow m-0">Welcome!</h6>
               </div>
-              <a href="./examples/profile.html" class="dropdown-item">
+              <a href="{{  route('/profile/index')}}" class="dropdown-item">
                 <i class="ni ni-single-02"></i>
                 <span>My profile</span>
-              </a>
-              <a href="./examples/profile.html" class="dropdown-item">
-                <i class="ni ni-settings-gear-65"></i>
-                <span>Settings</span>
-              </a>
-              <a href="./examples/profile.html" class="dropdown-item">
-                <i class="ni ni-calendar-grid-58"></i>
-                <span>Activity</span>
-              </a>
-              <a href="./examples/profile.html" class="dropdown-item">
-                <i class="ni ni-support-16"></i>
-                <span>Support</span>
               </a>
               <div class="dropdown-divider"></div>
               <a href="{{ route('logout') }}" class="dropdown-item">
@@ -204,7 +192,7 @@
     <!-- Footer -->
     <footer class="footer container-fluid text-center myfooter">
       
-      <p><a href="https://www.w3schools.com" title="Visit w3schools">&copy; 2019 Cokglah Creative Team</a></p>
+      <p><a href="#" title="Visit w3schools">&copy; 2019 Cokglah Creative Team</a></p>
       
     </footer>
     
@@ -216,12 +204,48 @@
   {{script('assets/argon/assets/vendor/chart.js/dist/Chart.min.js')}}
   {{script('assets/argon/assets/vendor/chart.js/dist/Chart.extension.js')}}
   {{script('assets/argon/assets/js/argon.js?v=1.0.0')}}
+  {{script('assets/js/webshim-1.16.0/js-webshim/minified/polyfiller.js')}}
   
-  <script>
+  <script type="text/javascript">
+    
+    function show() {
+      // Declare variables
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("cari");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("myTable");
+      tr = table.getElementsByTagName("tr");
+      
+      // Loop through all table rows, and hide those who don't match the search query
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+    //add value nama_ruangan
     function add(x) {
       document.getElementById("namaroom").setAttribute('value',document.getElementById(x).getAttribute('value'));
-      console.log(document.getElementById(x).getAttribute('value'))
+      //console.log(document.getElementById(x).getAttribute('value'))
     }
+    
+    webshims.setOptions('forms-ext', {
+      replaceUI: 'auto',
+      types: 'date'
+    });
+    webshims.polyfill('forms forms-ext');
+    
+    $(function(){
+      $('[type="date"].min-today').prop('min', function(){
+        return new Date().toJSON().split('T')[0];
+      });
+    });
   </script>
   
 </body>

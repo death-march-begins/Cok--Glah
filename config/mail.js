@@ -22,7 +22,7 @@ module.exports = {
   | Here we define configuration for sending emails via SMTP.
   |
   */
-  smtp: {
+   smtp: {
     driver: 'smtp',
     pool: true,
     port: 587,
@@ -35,7 +35,7 @@ module.exports = {
     maxConnections: 5,
     maxMessages: 100,
     rateLimit: 10
-  },
+   },
 
   /*
   |--------------------------------------------------------------------------

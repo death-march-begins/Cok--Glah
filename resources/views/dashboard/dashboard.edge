@@ -72,16 +72,16 @@
               <div class="row">
                 <div class="col">
                   <h5 class="card-title text-uppercase text-muted mb-0">Tidak Terpakai</h5>
-              
-                    @if(av.message) 
-                    <span class="h2 font-weight-bold mb-0">
+                  
+                  @if(av.message) 
+                  <span class="h2 font-weight-bold mb-0">
                     0 
-                    </span>
-                    @else
-                    <span class="h2 font-weight-bold mb-0">
+                  </span>
+                  @else
+                  <span class="h2 font-weight-bold mb-0">
                     {{av.length}}
-                    </span>
-                    @endif
+                  </span>
+                  @endif
                   
                 </div>
                 <div class="col-auto">
@@ -100,12 +100,16 @@
   </div>
 </div>
 <!-- Projects table -->
-<table class="table align-items-center table-flush">
+<table id="myTable" class="table align-items-center table-flush">
   <thead class="thead-light">
     <tr>
       <th scope="col">Registered class</th>
       <th scope="col">Capacity</th>
       <th scope="col">Field</th>
+      <th scope="col">Date Start</th>
+      <th scope="col">Date Finished</th>
+      <th scope="col">Time</th>
+      <th scope="col">Status</th>
     </tr>
   </thead>
   <tbody> 
@@ -121,8 +125,62 @@
         <td>         
           {{ room.jurusan }}
         </td>
+        
+        <td>  
+          @each(date in usingDate)
+          @if($parent.room.id_ruangan == date.id_ruangan )       
+          {{ date.tanggal_mulai }} <br>
+          @else
+          
+          @endif
+          @endeach
+        </td>
+        
+        <td>  
+          @each(date in usingDate)
+          @if($parent.room.id_ruangan == date.id_ruangan )       
+          {{ date.tanggal_selesai }}<br>
+          @else
+         
+          @endif
+          @endeach
+        </td>
+
+        <td>  
+          @each(date in usingDate)
+          @if($parent.room.id_ruangan == date.id_ruangan )       
+          @if(date.waktu == 0)
+          08:00 - 10:00<br>
+          @elseif(date.waktu == 1)
+          10:00 - 12:00<br>
+          @elseif(date.waktu == 2)
+          14:00 - 16:00<br>
+          @elseif(date.waktu == 3)
+          16:00 - 18:00<br>
+          @endif
+          @else
+          
+          @endif
+          @endeach
+      </td>
+        
+        @if(room.status==0)
+        <td> 
+          empty 
+        </td>
+        @elseif(room.status==1)     
+        <td>    
+          slot available
+        </td>
+        @else
+        <td>    
+          full
+        </td>
+        @endif
+        
       </tr>
-      @endeach 
+      @endeach
+      
     </tr>
   </tbody>
 </table>
@@ -163,7 +221,7 @@
           
           <div class="form-group">
             <label>Jurusan</label>
-            <input type="text" name="jurusan" class="form-email form-control" data-error="Subject field is required" required>
+            <input type="text" name="jurusan" class="form-email form-control" value="{{ user.jurusan }}" readonly>
           </div>
           
           <button id="order" name="order" type="submit" class="btn btn-success">Done</button>

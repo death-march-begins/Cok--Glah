@@ -1,5 +1,5 @@
 'use strict'
-
+var moment = require('moment');
 const Class = use('App/Models/Class')
 const Booked = use('App/Models/Booking')
 const StaticRoomForStatus = use('App/Models/BookingStatus')
@@ -7,26 +7,40 @@ const StaticRoomForStatus = use('App/Models/BookingStatus')
 class DashboardController {
   
   async getDashboard({ auth, view }) {
+    
+    let seeClass = new Booked()
+    let ruangan = new Class()
+    
+    await ruangan.checkTime()  
     const user = auth.user.toJSON()
     
     let ruangans = await Class.all()
     ruangans = ruangans.toJSON()
     
-    let booking = await Booked.all()
-    booking = booking.toJSON()
-    
     let jurusan = user.jurusan
-    let myRoom = await this.getMyRoom({jurusan})
-    myRoom = myRoom.toJSON()
+    let myRoom = await ruangan.getAllClass({jurusan})
+    let usingDate = await ruangan.getDate({jurusan})
     
-    let seeClass = new Booked()
-    let avClass = await seeClass.getAvailableClass()
+    for(var count = 0; count<usingDate.length; count++){
+      let tglm = usingDate[count].tanggal_mulai
+      let tgls = usingDate[count].tanggal_selesai
+      let m = moment(tglm,"YYYYMMDD")
+      let s = moment(tgls,"YYYYMMDD")
+      tglm = m.format("YYYY-MM-DD")
+      tgls = s.format("YYYY-MM-DD")
+      usingDate[count].tanggal_mulai=tglm
+      usingDate[count].tanggal_selesai=tgls 
+    }
+    
+    let booking = await seeClass.getAll({jurusan})
+    let avClass = await seeClass.getEmptyClass({jurusan})
     
     return view.render('dashboard/dashboard', {user: user, 
       rooms: ruangans, 
       myrooms: myRoom,
       book: booking,
-      av: avClass
+      av: avClass,
+      usingDate:usingDate
     })
   }
   
@@ -41,15 +55,6 @@ class DashboardController {
       id_ruangan: request.input('id_ruangan')
     })
     return response.redirect('/main/dashboard') 
-  }
-  
-  async getMyRoom ({jurusan}){
-    const myRoom = await Class
-    .query()
-    .where('jurusan', jurusan)
-    .fetch()
-    
-    return myRoom
   }
   
 }
