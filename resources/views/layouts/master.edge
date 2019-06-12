@@ -53,6 +53,36 @@
       padding-bottom: 2rem;
       height: 100%;
     }
+    ul.timeline {
+      list-style-type: none;
+      position: relative;
+    }
+    ul.timeline:before {
+      content: ' ';
+      background: #d4d9df;
+      display: inline-block;
+      position: absolute;
+      left: 29px;
+      width: 2px;
+      height: 100%;
+      z-index: 400;
+    }
+    ul.timeline > li {
+      margin: 20px 0;
+      padding-left: 20px;
+    }
+    ul.timeline > li:before {
+      content: ' ';
+      background: white;
+      display: inline-block;
+      position: absolute;
+      border-radius: 50%;
+      border: 3px solid #22c0e8;
+      left: 20px;
+      width: 20px;
+      height: 20px;
+      z-index: 400;
+    }
   </style>
 </head>
 
@@ -111,27 +141,19 @@
               <i class="ni ni-planet text-blue"></i> Booking
             </a>
           </li>
-          <li class="nav-item menubar {{ url == route('/main/mailbox') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('/main/mailbox') }}" aria-pressed="true">
-              <i class="ni ni-email-83 text-orange"></i> Mail Box
+          <li class="nav-item menubar {{ url == route('/main/timeline') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('/main/timeline') }}" aria-pressed="true">
+              <i class="ni ni-world-2 text-orange"></i> Timeline
             </a>
           </li>
           
         </ul>
         
         <!-- Divider -->
-        <hr class="my-3">
+        <!--<hr class="my-3"> -->
         <!-- Heading -->
         <!--  <h6 class="navbar-heading text-muted">Documentation</h6>  -->
         <!-- Navigation -->
-        <ul class="navbar-nav mb-md-3">
-          <li class="nav-item">
-            <a class="nav-link" href="https://demos.creative-tim.com/argon-dashboard/docs/getting-started/overview.html">
-              <i class="ni ni-spaceship"></i> Help
-            </a>
-          </li>
-          
-        </ul>
       </div>
     </div>
   </nav>
@@ -159,7 +181,7 @@
             <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <div class="media align-items-center">
                 <span class="avatar avatar-sm rounded-circle">
-                  <img alt="Image placeholder" src="{{ appUrl('/assets/argon/assets/img/default.jpg')}}">
+                  <img alt="Image placeholder" src="{{ appUrl('/uploads/')+ user.image}}">
                 </span>
                 <div class="media-body ml-2 d-none d-lg-block">
                   <span class="mb-0 text-sm  font-weight-bold">{{ user.nama_depan }}</span>

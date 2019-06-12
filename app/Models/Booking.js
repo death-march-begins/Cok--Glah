@@ -121,8 +121,13 @@ class Booking extends Model {
 
     async getAll({jurusan}){
         let all = await Database.raw('select * from bookings, booking_statuses where bookings.id_ruangan = booking_statuses.id_ruangan AND jurusan = "'+ jurusan+'" AND booking_statuses.status = 1 GROUP BY bookings.id_ruangan')
-        console.log(all[0])
+        //console.log(all[0])
         return all[0]
+    }
+
+    async getTimeline(){
+        let tl = await Database.raw('select a.nama_depan, a.nama_belakang, b.nama_ruangan, c.jurusan, c.waktu,  DATE_FORMAT(c.tanggal_mulai, "%d/%m/%Y") AS tanggal_mulai, DATE_FORMAT(c.tanggal_selesai, "%d/%m/%Y") AS tanggal_selesai, c.created_at from users a, ruangans b, bookings c where a.id=c.id_admin AND b.id_ruangan = c.id_ruangan ORDER BY created_at DESC')
+        return tl[0]
     }
 
     async getDateTime() {

@@ -31,16 +31,19 @@ class Class extends Model {
     
     async checkTime(){
         let today = await this.getDateTime()
-        let id = await Database.raw('select id_ruangan from bookings where DATE_FORMAT(tanggal_selesai, "%Y%m%d") > "'+ today+'"GROUP BY id_ruangan')
-        console.log(id[0])
+        let id = await Database.raw('select id_ruangan from bookings where DATE_FORMAT(tanggal_selesai, "%Y%m%d") >= "'+ today+'"GROUP BY id_ruangan')
+        console.log(id[0].length)
         if(id[0].length == 0){
             await StaticRoomForStatus.query().update({
                 status: 0
             })
         }else{
+            await StaticRoomForStatus.query().update({
+                status: 0
+            })
             for(var i = 0; i<id[0].length; i++){
-                await StaticRoomForStatus.query().whereNot('id_ruangan',id[0][i].id_ruangan).update({
-                    status: 0
+                await StaticRoomForStatus.query().where('id_ruangan',id[0][i].id_ruangan).update({
+                    status: 1
                 })
             }
         }

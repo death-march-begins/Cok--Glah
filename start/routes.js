@@ -39,5 +39,5 @@ Route.group(() => {
     Route.post('booking/send', 'BookingController.sendEmail')
     Route.get('booking/all', 'BookingController.selectAll');
     Route.get('booking/empty', 'BookingController.selectEmpty');
-    Route.get('mailbox', 'MailboxController.index')
+    Route.get('timeline', 'TimelineController.index')
 }).prefix('/main').middleware(['admin'])
