@@ -16,4 +16,28 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
-Route.on('/').render('welcome')
+//Route.on('/').render('index')
+//Route.get('login', 'AuthController.getLogin').as('login').middleware(['guest'])
+Route.get('/','LoginController.getLogin').as('login').middleware(['guest'])
+Route.post('/', 'LoginController.postLogin').as('login').middleware(['guest'])
+Route.get('register','RegisterController.getRegister').as('register').middleware(['guest'])
+Route.post('register','RegisterController.postRegister').as('register').middleware(['guest']).validator('Register')
+Route.get('register/confirm/:token', 'RegisterController.confirmEmail').middleware(['guest'])
+Route.get('logout', 'LoginController.postLogout').as('logout').middleware(['admin'])
+
+Route.group(() => {
+    Route.get('/index', 'ProfileController.index');
+    Route.get('/edit/:id', 'ProfileController.edit')
+    Route.post('/update/:id', 'ProfileController.update')
+}).prefix('/profile').middleware(['admin'])
+
+Route.group(() => {
+    Route.get('dashboard', 'DashboardController.getDashboard')
+    Route.post('dashboard/newclass', 'DashboardController.storeClass')
+    Route.get('booking', 'BookingController.index')
+    Route.post('booking/add', 'BookingController.storeOrder')
+    Route.post('booking/send', 'BookingController.sendEmail')
+    Route.get('booking/all', 'BookingController.selectAll');
+    Route.get('booking/empty', 'BookingController.selectEmpty');
+    Route.get('timeline', 'TimelineController.index')
+}).prefix('/main').middleware(['admin'])

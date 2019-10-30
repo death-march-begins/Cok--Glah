@@ -1,0 +1,71 @@
+@layout('layouts.master')
+
+@section('content')
+<div class="header bg-gradient-blue pt-md-8 booking-header">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row">   
+                <div class="col-lg-12">
+                    <h1 class="page-header" style="color:white;">My Profile</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><br>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                
+                <div class="card-body">
+                    <form method="POST" action="{{ route('/profile/update/:id', { id : user.id} ) }}" enctype="multipart/form-data">
+                        {{ csrfField() }}
+                        <div class="alert alert-danger print-error-msg" style="display:none">
+                            <ul></ul>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-6">
+                                <img src="{{ appUrl('/uploads/')+ user.image}}" style="width: 150px; height: 150px;">
+                                <input type="file" name="images" class="form-control">
+                            </div>
+                        </div><br>
+                        
+                        <div class="form-group row">
+                            <label for="nama" class="col-md-4 col-form-label text-md-right">Nama Depan</label>
+                            
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="nama_depan" value="{{ user.nama_depan }}">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label for="nama" class="col-md-4 col-form-label text-md-right">Nama Belakang</label>
+                            
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="nama_belakang" value="{{ user.nama_belakang }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                                <label for="nama" class="col-md-4 col-form-label text-md-right">Username</label>
+                                
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="username" value="{{ user.username }}">
+                                </div>
+                            </div>
+                        
+                        <div class="form-group row mb-0">
+                            <div class="col-md-8 offset-md-4">
+                                    <button id="order" name="order" type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@endsection

@@ -1,0 +1,295 @@
+@layout('layouts.master')
+
+@section('content')
+<!-- Page content -->
+<div class="header bg-gradient-blue pt-md-8 booking-header">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header" style="color:white;">Book Your Class Here</h1>
+                </div>
+                @if(flashMessage('error'))      
+                <div class="alert alert-warning" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <p class="text-sm">{{ flashMessage('error') }}</p> 
+                </div>
+                @elseif(flashMessage('notification'))
+                <div class="alert alert-success" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <p class="text-sm">{{ flashMessage('notification.message') }}</p> 
+                </div>                          
+                @endif
+                <!-- /.col-lg-12 -->
+            </div>
+            
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Choose here
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="{{ appUrl('main/booking') }}">Default</a>
+                    <a class="dropdown-item" href="{{ appUrl('main/booking/all') }}">All</a>
+                    <a class="dropdown-item" href="{{ appUrl('main/booking/empty') }}">All (Empty)</a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- Projects table -->
+@if(avClass.message)
+<div class="container-fluid" style="padding-top: 20px;">
+    <p>{{avClass.message}}</p>
+</div>
+@else
+<table id="myTable" class="table align-items-center table-flush">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Available Class</th>
+            <th scope="col">Capacity</th>
+            <th scope="col">Field</th>
+            <th scope="col">Date Start</th>
+            <th scope="col">Date Finished</th>
+            <th scope="col">Time</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody> 
+        <tr>
+            @each(room in avClass)
+            <tr>
+                <td>         
+                    {{ room.nama_ruangan }}
+                </td>
+                <td>         
+                    {{ room.kapasitas }}
+                </td>
+                <td>         
+                    {{ room.jurusan }}
+                </td>
+                <td>  
+                    @each(date in usingDate)
+                    @if($parent.room.id_ruangan == date.id_ruangan )       
+                    {{ date.tanggal_mulai }} <br>
+                    @else
+                    
+                    @endif
+                    @endeach
+                </td>
+                
+                <td>  
+                    @each(date in usingDate)
+                    @if($parent.room.id_ruangan == date.id_ruangan )       
+                    {{ date.tanggal_selesai }}<br>
+                    @else
+                    
+                    @endif
+                    @endeach
+                </td>
+                
+                <td>  
+                    @each(date in usingDate)
+                    @if($parent.room.id_ruangan == date.id_ruangan )       
+                    @if(date.waktu == 0)
+                    08:00 - 10:00<br>
+                    @elseif(date.waktu == 1)
+                    10:00 - 12:00<br>
+                    @elseif(date.waktu == 2)
+                    14:00 - 16:00<br>
+                    @elseif(date.waktu == 3)
+                    16:00 - 18:00<br>
+                    @endif
+                    @else
+                    
+                    @endif
+                    @endeach
+                </td>
+                
+                @if(room.jurusan == user.jurusan) 
+                <td>         
+                    <a href="" data-toggle="modal" data-target="#modal-register" onclick="add('{{ room.id_ruangan }}');"><i class="fa fa-plus-square big-icon"></i></a>
+                </td>
+                @else
+                <td>         
+                    <a href="" data-toggle="modal" data-target="#modal-email" onclick="add('{{ room.id_ruangan }}');"><i class="fa fa-envelope big-icon"></i></a>
+                </td>
+                @endif
+                <input type="text" id="{{ room.id_ruangan }}" class="form-first-name form-control" value="{{ room.nama_ruangan }}" hidden>       
+                
+            </tr>
+            @endeach 
+        </tr>
+    </tbody>
+</table>
+@endif
+
+<!-- MODAL -->
+<div class="modal fade" id="modal-register" tabindex="-1" role="dialog" aria-labelledby="modal-register-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <div class="modal-header" style="background: #26a65b;">
+                <p style="color:white;">Fill in the form below to book your class :</p>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only" style="color:red;">Close</span>
+                </button>
+                
+            </div>
+            
+            <div class="modal-body">
+                
+                <form role="form" action="{{ route('/main/booking/add') }}" method="post" class="registration-form ws-validate">
+                    {{ csrfField() }}
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" class="form-first-name form-control" value="{{ user.username }}" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Nama Ruangan</label>
+                        <input type="text" id="namaroom" name="namaruang" class="form-first-name form-control" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Waktu</label>
+                        <select name="myselectbox" class="form-control" required>
+                            <option name="pagi" value=0>08.00 - 10.00</option>
+                            <option name="pagisiang" value=1>10.00 - 12.00</option>
+                            <option name="siang" value=2>14.00 - 16.00</option>
+                            <option name="sore" value=3>16.00 - 18.00</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Tanggal Mulai</label>
+                        <input type="date" id="tglmulai" name="tanggal_mulai" class="form-email form-control min-today" data-date-split-input="true" data-error="Subject field is required" min="2018-06-07" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Tanggal Selesai</label>
+                        <input type="date" name="tanggal_selesai" class="form-email form-control min-today" data-date-split-input="true" data-error="Subject field is required" min="2018-06-07" required>
+                    </div>
+                    
+                    <button id="order" name="order" type="submit" class="btn btn-success">Done</button>
+                </form>
+                
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal fade" id="modal-register" tabindex="-1" role="dialog" aria-labelledby="modal-register-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <div class="modal-header" style="background: #26a65b;">
+                <p style="color:white;">Fill in the form below to book your class :</p>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only" style="color:red;">Close</span>
+                </button>
+                
+            </div>
+            
+            <div class="modal-body">
+                
+                <form role="form" action="{{ route('/main/booking/add') }}" method="post" class="registration-form ws-validate">
+                    {{ csrfField() }}
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" class="form-first-name form-control" value="{{ user.username }}" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Nama Ruangan</label>
+                        <input type="text" id="namaroom" name="namaruang" class="form-first-name form-control" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Waktu</label>
+                        <select name="myselectbox" class="form-control" required>
+                            <option name="pagi" value=0>08.00 - 10.00</option>
+                            <option name="pagisiang" value=1>10.00 - 12.00</option>
+                            <option name="siang" value=2>14.00 - 16.00</option>
+                            <option name="sore" value=3>16.00 - 18.00</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Tanggal Mulai</label>
+                        <input type="date" id="tglmulai" name="tanggal_mulai" class="form-email form-control min-today" data-date-split-input="true" data-error="Subject field is required" min="2018-06-07" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Tanggal Selesai</label>
+                        <input type="date" name="tanggal_selesai" class="form-email form-control min-today" data-date-split-input="true" data-error="Subject field is required" min="2018-06-07" required>
+                    </div>
+                    
+                    <button id="order" name="order" type="submit" class="btn btn-success">Done</button>
+                </form>
+                
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal fade" id="modal-email" tabindex="-1" role="dialog" aria-labelledby="modal-register-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <div class="modal-header" style="background: #26a65b;">
+                <p style="color:white;">Fill in the form below to book your class :</p>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only" style="color:red;">Close</span>
+                </button>
+                
+            </div>
+            
+            <div class="modal-body">
+                
+                <form role="form" action="{{ route('/main/booking/send') }}" method="post" class="registration-form ws-validate">
+                    {{ csrfField() }}
+                    <div class="form-group">
+                        <label>From</label>
+                        <input type="email" name="fromemail" class="form-first-name form-control" value="{{ user.email }}" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Email Password</label>
+                        <input type="password" name="password" class="form-first-name form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>To</label>
+                        <input type="email" name="toemail" class="form-first-name form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <input type="text"  name="subjek" class="form-first-name form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="form-about-yourself">Messages</label>
+                        <textarea name="messages" placeholder="Type some messages here" 
+                        class="form-about-yourself form-control" id="form-about-yourself" required></textarea>
+                    </div>
+                    
+                    <button id="order" name="send" type="submit" class="btn btn-success">Send</button>
+                </form>
+                
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+@endsection
