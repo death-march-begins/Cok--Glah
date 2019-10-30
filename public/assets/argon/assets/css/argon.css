@@ -10589,8 +10589,12 @@ button.bg-darker:focus
 
 .pb-8,
 .py-8
+<<<<<<< HEAD
 {   
     height: 100%;
+=======
+{
+>>>>>>> master
     padding-bottom: 8rem !important;
 }
 
@@ -17916,7 +17920,12 @@ a.btn-icon-only
 .footer
 {
     padding: 2.5rem 0; 
+<<<<<<< HEAD
     background: #f8f9fe;
+=======
+
+    background: #f7fafc;
+>>>>>>> master
 }
 .footer .col-footer .heading
 {

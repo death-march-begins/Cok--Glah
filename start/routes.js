@@ -16,6 +16,7 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
+<<<<<<< HEAD
 //Route.on('/').render('index')
 //Route.get('login', 'AuthController.getLogin').as('login').middleware(['guest'])
 Route.get('/','LoginController.getLogin').as('login').middleware(['guest'])
@@ -41,3 +42,8 @@ Route.group(() => {
     Route.get('booking/empty', 'BookingController.selectEmpty');
     Route.get('timeline', 'TimelineController.index')
 }).prefix('/main').middleware(['admin'])
+=======
+// Route.on('/').render('welcome')
+Route.on('/').render('landing_page')
+
+>>>>>>> master
