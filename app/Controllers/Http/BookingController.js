@@ -74,7 +74,7 @@ class BookingController {
   async sendEmail({session, auth, request, response}){
     // send confirmation email
     let toemail = request.input('toemail') 
-    let subjek = "CokGlah - " + request.input('subjek')
+    let subjek = request.input('subjek')
     let pesan = request.input('messages')
     let fromemail = request.input('fromemail')
     let password = request.input('password')

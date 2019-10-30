@@ -108,7 +108,7 @@ class Booking extends Model {
    
     async getDetail(){
         let today = await this.getDateTime()
-        let detail = await Database.raw('select waktu, DATE_FORMAT(tanggal_mulai, "%Y%m%d") AS tanggal_mulai, DATE_FORMAT(tanggal_selesai, "%Y%m%d") AS tanggal_selesai from bookings where tanggal_mulai >= "'+today+'" AND tanggal_selesai >= "'+today+'"')
+        let detail = await Database.raw('select waktu, DATE_FORMAT(tanggal_mulai, "%Y%m%d") AS tanggal_mulai, DATE_FORMAT(tanggal_selesai, "%Y%m%d") AS tanggal_selesai from bookings where tanggal_selesai >= "'+today+'"')
         //console.log(detail[0].length)
         return detail[0]
     }
